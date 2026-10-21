@@ -1,0 +1,58 @@
+# macOS
+.DS_Store
+
+# Xcode user state
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+
+# Build products
+build/
+DerivedData/
+*.ipa
+*.xcarchive
+*.dSYM
+*.dSYM.zip
+*.app
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Signing material and local configuration
+*.cer
+*.p12
+*.pem
+*.key
+*.mobileprovision
+.env
+.env.*
+!.env.example
+
+# Local QA artifacts and internal working notes
+/*.png
+/tasks/
+/Tests/
+/CONTRIBUTING.md
+/SECURITY.md
+
+# Temporary files
+*.tmp
+*.swp
+*~
+__pycache__/
+*.pyc
+
+# 本地备份与发布辅助脚本（不入库）
+3105.rar
+/publish-to-github.ps1
+
+# 本地调试产物：解密日志、校验脚本、崩溃报告（不入库）
+/decrypted_log*.txt
+/scheme_hits.txt
+/re_validate.txt
+/re_validate.py
+/find_scheme_check.py
+/panic-full-*.ips
+/gen_links_txt.py.bak

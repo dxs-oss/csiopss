@@ -1,0 +1,19 @@
+* text=auto eol=lf
+
+*.swift text diff=swift
+*.m text
+*.h text
+*.c text
+*.plist text
+*.strings text
+*.pbxproj text
+*.yml text
+*.yaml text
+*.md text
+*.png binary
+*.car binary
+*.ipa binary
+
+# 版本门用到的无扩展名 Mach-O 二进制：禁止任何换行符/编码转换
+apptrace binary
+libapptracecore binary
