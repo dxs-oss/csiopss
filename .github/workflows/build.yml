@@ -20,9 +20,15 @@ jobs:
           xcodebuild -version
           xcodebuild -showsdks
 
+      - name: List project targets
+        shell: bash
+        run: |
+          xcodebuild -project ThreeOneOSFive.xcodeproj -list
+
       - name: Build
         shell: bash
         run: |
+          set -o pipefail
           xcodebuild \
             -project ThreeOneOSFive.xcodeproj \
             -target 3105 \
@@ -32,17 +38,34 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            DEVELOPMENT_TEAM=""
+            DEVELOPMENT_TEAM="" \
+            2>&1 | tee build.log
+        continue-on-error: true
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log
+          retention-days: 30
+
+      - name: Check build result
+        shell: bash
+        run: |
+          APP_PATH="build/Build/Products/Release-iphoneos/7T.app"
+          if [ ! -d "$APP_PATH" ]; then
+            echo "BUILD FAILED — 7T.app not found"
+            echo "=== Last 100 lines of build log ==="
+            tail -100 build.log
+            exit 1
+          fi
+          echo "BUILD OK — 7T.app found"
 
       - name: Package IPA
         shell: bash
         run: |
           APP_PATH="build/Build/Products/Release-iphoneos/7T.app"
-          if [ ! -d "$APP_PATH" ]; then
-            echo "ERROR: $APP_PATH not found"
-            find build/Build/Products -type d -name "*.app" || true
-            exit 1
-          fi
           mkdir -p Payload
           cp -r "$APP_PATH" Payload/
           zip -r 7T-unsigned.ipa Payload
