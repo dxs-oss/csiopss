@@ -31,7 +31,7 @@ jobs:
           set +e
           xcodebuild \
             -project ThreeOneOSFive.xcodeproj \
-            -target 3105 \
+            -scheme 3105 \
             -configuration Release \
             -sdk iphoneos \
             -derivedDataPath build \
